@@ -1,0 +1,114 @@
+UIAutomation:
+http://blog.csdn.net/yangtb2010/article/details/50177217
+
+http://www.dreaminto.com/2015/0526/818.html
+########################################################
+1、调用外部的js文件
+
+＃import "...filePath/fileName.js"
+2、获得当前程序窗口
+var target = UIATarget.localTarget();//获得目标程序
+var window = target.frontMostApp().mainWindow();//获得当前窗口
+说明：大部分程序中组建都是在window窗口下操作的，如：button、textfield等等，因此要想获得这些组建，必须先获得窗口，另外有些组建与window是平级的，写代码 时需要注意，如：tabBars、toolbar、navigationBar等等；
+3、按钮点击
+UIATarget.localTarget().frontMostApp().mainWindow().buttons()["xxx"].tap();
+buttons是UIAElementArray数据类型，因此“xxx”可以表示为按钮在数组中的下标，通过下标就能操作任意当前界面的按钮，“xxx”也可以表示按钮的title，这样能更精准的控制按钮的action；
+4、等待系统反映
+UIATarget.localTarget().delay(2);//延时2秒执行下一条指令
+UIATarget.localTarget().pushTimeout(2);//指定超时为2秒钟
+UIATarget.localTarget().popTimeout();//超时弹出
+程序运行过程中的速度，收到很多情况的影响，如网速、内存使用率、程序内部延时等等，这些都有可能影响到下一个自动操作步骤，一个指令因为延时而没完成，又开始下一个指令，特别是更换界面，肯定回出错的，脚本并不是“文化青年”没这么聪明，因此要给他设定一个等待时间差；
+5、导航栏操作
+UIATarget.localTarget().frontMostApp().navigationBar().leftButton().tap(); //点击左侧按钮
+UIATarget.localTarget().frontMostApp().navigationBar().rightButton().tap(); //点击右侧按钮
+可以发现上面的指令中没有"window()",因为上面介绍了，navigationBar()是与window()平级的；
+6、截图
+UIATarget.localTarget().captureScreenWithName(“picname”);
+7、给textFiled负值
+UIATarget.localTarget().frontMostApp().mainWindow().textFields()[0].setValue(“xxx”);
+下面是cell中的textField
+UIATarget.localTarget().frontMostApp().mainWindow().tableViews()["xxx"].cells()["xxx"].textFields()[0].setValue(“xxx”);
+8、虚拟键盘操作
+UIATarget.localTarget().frontMostApp().keyboard().typeString(“xxx”);
+9、打印屏幕上的控件树结构
+UIATarget.localTarget().logElementTree();
+这条指令能够将当前界面的所有控件都打印出来，也能从中分析他们的层次结构，方便对控件查看操作；
+10、scrollView拖动操作
+window.tableViews()[0].scrollDown();
+window.tableViews()[0].scrollUp();
+window.tableViews()[0].scrollLeft();
+window.tableViews()[0].scrollRight();
+11、根据title匹配控件
+obj＝ window.tableViews()[0].cells().firstWithName(“xxx”);
+返回title为“xxx”的控件；
+12、根据k值匹配
+obj= window.tableViews()[0].cells().firstWithValueForKey(“aaa”,”name”);
+13、根据name查询控件
+obj= window.tableViews()[0].cells().firstWithPredicate(“name beginswith ‘hello’”);
+14、滚轮拖动
+UIATarget.localTarget().frontMostApp().mainWindow().pickers()[0].wheels()[0].dragInsideWithOptions({startOffset:{x:0.38, y:0.66}, endOffset:{x:0.38, y:0.12}, duration:1.6});
+15、获取文本字符串
+UIATarget.localTarget().frontMostApp().mainWindow().scrollViews()[0].staticTexts()[0].value();
+16、获取对象数组长度
+UIATarget.localTarget().frontMostApp().mainWindow().buttons().length;
+对于UIAElementArray类型的数据，通过上面的方法就能够查看数组中的元素个数；
+17、segmentedControls控件
+UIATarget.localTarget().frontMostApp().mainWindow().elements()[0].segmentedControls()[0].buttons()[1].tap();
+18、slider控件
+UIATarget.localTarget().frontMostApp().mainWindow().sliders()[0].dragToValue(xxx);
+"xxx"数据范围0～1
+19、界面任意位置点击
+UIATarget.localTarget().tap({x:100, y:200});//屏幕(x,y) 坐标单击
+UIATarget.localTarget().doubleTap({x:100, y:200});//屏幕(x,y) 坐标双击
+UIATarget.localTarget().twoFingerTap({x:100, y:200});//双手指点击
+20、捏合与放大
+UIATarget.localTarget().pinchOpenFromToForDuration(({x:20, y:200}, {x:300, y:200}, 2);//在2秒钟内,指定坐标的放大
+UIATarget.localTarget().pinchCloseFromToForDuration(({x:20, y:200}, {x:300, y:200}, 2);//在2秒钟内,指定坐标缩小
+UIATarget.localTarget().dragFromToForDuration(({x:160, y:200}, {x:160, y:400}, 1);//1秒钟内拖拽坐标位置
+UIATarget.localTarget().flickFromTo(({x:160, y:200}, {x:160, y:400});//快速的拖拽,没有时间参数
+21、获取导航按钮名字
+var tabBar = UIATarget.localTarget().frontMostApp().mainWindow().tabBar();
+var selectedTabName = tabBar.selectedButton().name();
+name()函数是个只读函数；
+22、scrollView定位
+UIATarget.localTarget().frontMostApp().mainWindow().tableViews()[0].scrollToElementWithPredicate("name beginswith ‘Turtle Pie’");
+滚动到表格名字以Turtle Pie开头的地方.名字可是不确定的,可以用这个方法来定位.
+scrollToElementWithName() 名字确定的位置
+scrollToElementWithValueForKey()值确定的位置.
+23、测试日志纪录
+var testName = "Module 001 Test";
+UIALogger.logStart(testName);//测试开始//some test code
+UIALogger.logMessage("Starting Module 001 branch 2, validating input.");//中间加的测试日志,用来给自己区分测试内容和位置等变量
+UIATarget.localTarget().captureScreenWithName("SS001-2_AddedIngredient");//抓取当前测试的屏幕保存名字为:SS001-2_AddedIngredient
+UIALogger.logPass(testName);////测试结束,给的测试标记
+24、alert控件
+UIATarget.onAlert = function onAlert(alert) {
+var title = alert.name();
+UIALogger.logWarning("Alert with title '" + title + "' encountered.");
+if (title == "The Alert We Expected") {
+alert.buttons()["Continue"].tap();
+return true; //处理警告,返回true,跳过默认的处理方法
+}
+return false;//返回false,使用默认的处理方法.
+}
+25、设置设备旋转
+设备方向：
+UIATarget.setDeviceOrientation 用来设置 设备方向
+UIA_DEVICE_ORIENTATION_UNKNOWN 设备的方向不能确定。
+UIA_DEVICE_ORIENTATION_PORTRAIT 设备Home键在底部的。
+UIA_DEVICE_ORIENTATION_PORTRAIT_UPSIDEDOWN 设备Home键在顶部。
+UIA_DEVICE_ORIENTATION_LANDSCAPELEFT 设备Home键在右侧。(这二个地方,不知道是不是官方的xcode写错了,好象写反了,没有求证)
+UIA_DEVICE_ORIENTATION_LANDSCAPERIGHT 设备Home键在左侧。
+UIA_DEVICE_ORIENTATION_FACEUP 设备是屏幕地平朝上。
+UIA_DEVICE_ORIENTATION_FACEDOWN 设备是屏幕地平朝下。
+
+界面方向
+UIATarget.interfaceOrientation 设置界面方向
+UIA_INTERFACE_ORIENTATION_PORTRAIT 界面是纵向模式下，Home按钮的底部。
+UIA_INTERFACE_ORIENTATION_PORTRAIT_UPSIDEDOWN 界面是纵向模式下，但倒过来，Home按钮的顶部。
+UIA_INTERFACE_ORIENTATION_LANDSCAPELEFT 该界面是在横向模式下，Home按钮的左侧。
+UIA_INTERFACE_ORIENTATION_LANDSCAPERIGHT 该界面是在横向模式下，Home按钮的右侧。
+
+26、程序后台延时
+UIATarget.localTarget().deactivateAppForDuration(10);
+模拟另一个程序级别更高,占用了当前正在运行的程序.(如电话等功能),10秒后返回本测试程序.
