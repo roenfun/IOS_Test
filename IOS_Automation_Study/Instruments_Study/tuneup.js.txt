@@ -1,2 +1,9 @@
 学习例子
 http://blog.manbolo.com/2012/04/08/ios-automated-tests-with-uiautomation
+
+UIAutomation 入门
+http://blog.manbolo.com/2012/04/08/ios-automated-tests-with-uiautomation
+https://developer.apple.com/library/ios/documentation/DeveloperTools/Reference/UIAutomationRef/index.html#classes
+
+tunup.js
+http://www.csdn123.com/html/itweb/20130930/146038.htm
