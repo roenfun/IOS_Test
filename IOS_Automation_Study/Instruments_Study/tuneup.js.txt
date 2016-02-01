@@ -1,7 +1,7 @@
-学习例子
+渚嬪瓙
 http://blog.manbolo.com/2012/04/08/ios-automated-tests-with-uiautomation
 
-UIAutomation 入门
+UIAutomation 渚嬪瓙
 http://blog.manbolo.com/2012/04/08/ios-automated-tests-with-uiautomation
 https://developer.apple.com/library/ios/documentation/DeveloperTools/Reference/UIAutomationRef/index.html#classes
 
