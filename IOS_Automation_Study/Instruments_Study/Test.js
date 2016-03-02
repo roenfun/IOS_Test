@@ -4,19 +4,29 @@ var target = UIATarget.localTarget();
 var app = target.frontMostApp();
 var window = app.mainWindow();
 
+//--------- objects start-----------
+var oUserFloatIcon = app.windows()[0].buttons()["icon float user normal"];
+
+//--------- objects end-------------
+
 UIALogger.logStart("Logging: Start the testing...");
 
 target.setDeviceOrientation(UIA_DEVICE_ORIENTATION_PORTRAIT);
 
-window.logElementTree();
+//window.logElementTree();
 target.delay(5);
 
-app.windows()[0].buttons()["icon float user normal"].tap();
-app.windows()[0].navigationBar().buttons()["topbar setup normal"].tap();
+//navigate to Setting page
+oUserFloatIcon.tap();
+target.delay(1);
+//app.windows()[0].navigationBar().logElementTree();
+var oSettingIcon = app.windows()[0].navigationBar().buttons()["topbar setup normal"];
+oSettingIcon.tap();
 
 //------ Logout Start---------
-if(app.windows()[0].tableViews()[1].buttons()["退出登录"].isVisible()){
-    app.windows()[0].tableViews()[1].buttons()["退出登录"].tap();
+var oLogoutBtn =  app.windows()[0].tableViews()[1].buttons()["退出登录"];
+if(oLogoutBtn.isVisible()){
+    oLogoutBtn.tap();
     // Alert detected. Expressions for handling alerts should be moved into the UIATarget.onAlert function definition.
     UIATarget.onAlert = function onAlert(alert) {
         var title = alert.name;
@@ -29,26 +39,29 @@ if(app.windows()[0].tableViews()[1].buttons()["退出登录"].isVisible()){
     }
     
     //------ Back To Homepage---------
+    var oBackArrow = app.windows()[0].navigationBar().buttons()["topbar back normal"];
     target.delay(2);
-    app.windows()[0].buttons()["topbar close"].tap();
+    var oCloseIcon = app.windows()[0].buttons()["topbar close"];
+    oCloseIcon.tap();
     target.delay(1);
-    app.windows()[0].navigationBar().buttons()["topbar back normal"].tap();
-    target.delay(1);
-    app.windows()[0].navigationBar().buttons()["topbar back normal"].tap();
+    var oBackArrow = app.windows()[0].navigationBar().buttons()["topbar back normal"];
+    oBackArrow.tap();
 }else{
     UIALogger.logMessage("Debug: User has been Logout...");
     //------ Back To Homepage---------
     target.delay(1);
-    app.windows()[0].navigationBar().buttons()["topbar back normal"].tap();
+    var oBackArrow = app.windows()[0].navigationBar().buttons()["topbar back normal"];
+    oBackArrow.tap();
     target.delay(1);
-    app.windows()[0].navigationBar().buttons()["topbar back normal"].tap();
+    var oBackArrow = app.windows()[0].navigationBar().buttons()["topbar back normal"];
+    oBackArrow.tap();
 }
 
 //------ Logout End----------
 
 //scroll to bottom
 UIALogger.logDebug( "Debug: scroll to bottom..." );
-for(i=0;i<180;i++){
+for(i=0;i<4;i++){
     UIALogger.logDebug( "<Debug>: scroll count: " + i );
     target.dragInsideWithOptions({startOffset:{x:0.5, y:0.8}, endOffset:{x:0.5, y:0.2}, duration:1.5});
     target.delay(1);
