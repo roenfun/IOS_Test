@@ -18,10 +18,11 @@ target.delay(5);
 
 //navigate to Setting page
 oUserFloatIcon.tap();
-target.delay(1);
+target.pushTimeout(1);;
 //app.windows()[0].navigationBar().logElementTree();
 var oSettingIcon = app.windows()[0].navigationBar().buttons()["topbar setup normal"];
 oSettingIcon.tap();
+target.popTimeout();
 
 //------ Logout Start---------
 var oLogoutBtn =  app.windows()[0].tableViews()[1].buttons()["退出登录"];
@@ -61,7 +62,7 @@ if(oLogoutBtn.isVisible()){
 
 //scroll to bottom
 UIALogger.logDebug( "Debug: scroll to bottom..." );
-for(i=0;i<4;i++){
+for(i=0;i<10;i++){
     UIALogger.logDebug( "<Debug>: scroll count: " + i );
     target.dragInsideWithOptions({startOffset:{x:0.5, y:0.8}, endOffset:{x:0.5, y:0.2}, duration:1.5});
     target.delay(1);
@@ -71,7 +72,14 @@ for(i=0;i<4;i++){
 UIALogger.logDebug( "Debug: scroll to top..." );
 target.touchAndHold({x:344, y:642}, 3);
 target.delay(2);
-app.windows()[0].staticTexts()[3].tap();
+var oBackToTopBtn = app.windows()[0].staticTexts()[3];
+if(oBackToTopBtn.checkIsValid()){
+    UIALogger.logMessage("Message: back to top button dispalyed.");
+    oBackToTopBtn.tap();
+}else{
+     UIALogger.logError("Error: back to top button NOT dispalyed!!");
+}
+
 //target.tap({x:344, y:642});//屏幕(x,y) 坐标单击
 
 target.delay(5);
@@ -83,3 +91,5 @@ target.delay(2);
 target.tap({x:187, y:480});//屏幕(x,y) 坐标单击
 target.delay(2);
 target.tap({x:187, y:496});
+
+//测试 git rebase
