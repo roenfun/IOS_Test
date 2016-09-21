@@ -93,5 +93,4 @@ target.delay(2);
 target.tap({x:187, y:496});
 
 //测试 git rebase onece again
-//测试 git rebase 再次了
-//测试rebase
+//测试 git rebase 再次了啊
