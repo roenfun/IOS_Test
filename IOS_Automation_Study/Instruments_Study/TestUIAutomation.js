@@ -46,3 +46,4 @@ test("Test 1", function(target, app) {
 
     //UIALogger.logMessage("Logging: switch APP to background");
     //target.deactivateAppForDuration(10);
+    //git reabse
