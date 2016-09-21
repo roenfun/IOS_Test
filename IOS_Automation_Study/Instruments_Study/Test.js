@@ -1,4 +1,5 @@
 //#import "tuneup/tuneup_js/tuneup.js"
+//import module
 
 var target = UIATarget.localTarget();
 var app = target.frontMostApp();
@@ -91,6 +92,3 @@ target.delay(2);
 target.tap({x:187, y:480});//屏幕(x,y) 坐标单击
 target.delay(2);
 target.tap({x:187, y:496});
-
-//测试 git rebase onece again
-//测试 git rebase 再次了啊
