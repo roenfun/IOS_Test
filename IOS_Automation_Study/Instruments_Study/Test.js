@@ -1,5 +1,4 @@
 //#import "tuneup/tuneup_js/tuneup.js"
-//test git rebase2
 //test git merge
 
 var target = UIATarget.localTarget();
